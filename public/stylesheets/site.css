@@ -1,0 +1,81 @@
+body {
+  padding-top: 70px;
+}
+.navbar-header a.navbar-brand {
+  margin-top: -15px;
+  margin-bottom: -20px;
+}
+.navbar-header a.navbar-brand h6 {
+  color: #f5f5f5;
+}
+footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+footer p {
+  border-top: 1px solid #d7e0e2;
+}
+.navbar-form .form-group {
+  margin-left: 10px;
+}
+.navbar-form button {
+  margin-left: 10px;
+}
+.toast-top-right {
+  top: 70px;
+}
+.toast-success {
+  background-color: #258cd1;
+}
+.padding-top-med {
+  padding-top: 10px;
+}
+.margin-left-med {
+  margin-left: 10px;
+}
+.margin-top-med {
+  margin-top: 21px;
+}
+.bar {
+  fill: #258cd1;
+  shape-rendering: crispEdges;
+}
+.bar-label {
+  text-anchor: end;
+  fill: #f5f5f5;
+  font-size: 20px;
+}
+.circle {
+  fill: #258cd1;
+  stroke: #ffa500;
+}
+.circle-label {
+  text-anchor: end;
+  fill: #000;
+  font-size: 20px;
+}
+.vbar-label {
+  text-anchor: middle;
+  fill: #f5f5f5;
+  font-size: 20px;
+}
+.svg {
+  border: 1px solid #ccc;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.gridline path,
+.gridline line {
+  fill: none;
+  stroke: #ccc;
+  shape-rendering: crispEdges;
+}
+.trendline {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 4px;
+}
