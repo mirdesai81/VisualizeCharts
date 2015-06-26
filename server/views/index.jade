@@ -9,9 +9,12 @@ block content
         ul.nav.navbar-nav
           li
             a(href="/") Home
+          li
+            a(href="/lineChart") Line Chart
+          li
+            a(href="/scatterPlot") Scatter Plot
   .container
-    section.content
-    section.content2
+    section.content(ng-view)
   footer.container.text-center.margin-top-med
     p &copy; 2015 Visualize Charts Corp International Ltd
 

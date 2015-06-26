@@ -78,4 +78,28 @@ footer p {
   fill: none;
   stroke: #ccc;
   stroke-width: 4px;
+  stroke-dasharray: 5;
+  shape-rendering: crispEdges;
+}
+.line-label {
+  text-anchor: start;
+  fill: #555;
+  font-size: 20px;
+}
+.area {
+  fill: #d4e9ff;
+  stroke: #d4e9ff;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+.donut {
+  opacity: 0.2;
+}
+.yaxis-label {
+  text-anchor: middle;
+}
+.chart-header-label {
+  text-anchor: middle;
+  fill: #555;
+  font-size: 20px;
 }

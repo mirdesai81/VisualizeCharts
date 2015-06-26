@@ -441,22 +441,20 @@ d3.custom.HorizontalBarChart = function module(params) {
 
 
 
-/*var chart = d3.custom.VerticalBarChart().on('customHover',function(d,i){
+var chart = d3.custom.VerticalBarChart().on('customHover',function(d,i){
     d3.select(this).style("fill","#000");
     console.log(d);
 }).on('customMouseOut',function(d,i){
     d3.select(this).style("fill",function(){return colors(i)});
-});*/
+});
 
 
 
-/*
 d3.select('section.content')
     .datum(data)
     .call(chart);
-*/
 
-/*var controls = d3.select('section.content').append('div').attr('id','controls').classed('container',true);
+var controls = d3.select('section.content').append('div').attr('id','controls').classed('container',true);
 
 var sort_btn = controls.append('button').html('Sort data: ascending').attr('state','0').classed('btn btn-primary',true);
 
@@ -491,9 +489,9 @@ sort_btn.on("click",function(){
         .datum(data)
         .call(chart);
 
-});*/
-
+});
 /*
 var hChart = d3.custom.HorizontalBarChart();
 
-d3.select('section.content2').datum(data).call(hChart);*/
+d3.select('section.content2').datum(data).call(hChart);
+*/

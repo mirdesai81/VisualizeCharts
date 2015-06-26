@@ -5,8 +5,8 @@
 d3.custom.LineChart = function module(params) {
     var margin = {
         top : 40,
-        bottom : 120,
-        left : 80,
+        bottom : 60,
+        left : 60,
         right : 40
 
     };
@@ -21,16 +21,8 @@ d3.custom.LineChart = function module(params) {
     function exports(_selection) {
         _selection.each(function(_data){
             var dateParser = d3.time.format("%Y/%m/%d").parse;
-
-            console.log(dateParser("2015/01/01"));
-
-
             var height = h - margin.top - margin.bottom, width = w - margin.left - margin.right;
 
-            /* var xVerticalBarScale =
-             d3.scale.ordinal().domain(_data.map(function(entry){
-             return entry.itemGroup + " / " + entry.periodKey;
-             })).rangeRoundBands([0,width],0.1);*/
             var xScale =
                 d3.time.scale().domain(d3.extent(_data,function(d){
                     return dateParser(d.periodKey);
@@ -57,7 +49,16 @@ d3.custom.LineChart = function module(params) {
                 })
                 .y(function(d){
                    return yScale(d.totalAmount);
-                });
+                }).interpolate("cardinal");
+
+            var area = d3.svg.area()
+                .x(function(d){
+                    return xScale(dateParser(d.periodKey));
+                })
+                .y0(height)
+                .y1(function(d){
+                    return yScale(d.totalAmount);
+                }).interpolate("cardinal");
 
             if(!svg) {
                 svg = d3.select(this).append('svg').attr('class','svg').attr('height',h).attr("width",w);
@@ -98,6 +99,16 @@ d3.custom.LineChart = function module(params) {
                 .call(yGridLines);*/
 
             // enter
+            //area to shade
+            var areaPath = svg.select('.chart-group')
+                .selectAll(".area")
+                .data([_data]);
+
+            areaPath.enter()
+                .append('path')
+                .classed('area',true);
+
+            //line path
             var trendLine = svg.select('.chart-group')
                 .selectAll(".trendline")
                 .data([_data]);
@@ -106,15 +117,10 @@ d3.custom.LineChart = function module(params) {
                 .append('path')
                 .classed('trendline',true);
 
+            //circle
             var circle = svg.select(".chart-group")
                 .selectAll('.point')
                 .data(_data);
-          /*  var vbarLabel = svg.select(".chart-group")
-                .selectAll('.vbar-label')
-                .data(_data);
-*/
-
-
 
             circle.enter()
                 .append('circle')
@@ -123,10 +129,20 @@ d3.custom.LineChart = function module(params) {
                 .on("mouseover",dispatch.customHover)
                 .on("mouseout",dispatch.customMouseOut);
 
-           /* vbarLabel.enter()
+            //line label
+            var lineLabel = svg.select(".chart-group")
+                .selectAll('.line-label')
+                .data(_data);
+
+            lineLabel.enter()
                 .append('text')
-                .classed('vbar-label',true);*/
+                .classed('line-label',true);
             //update
+            svg.select(".chart-group")
+                .selectAll('.area')
+                .attr("d",function(d){
+                    return area(d);
+                });
 
             svg.select(".chart-group")
                 .selectAll('.trendline')
@@ -152,29 +168,30 @@ d3.custom.LineChart = function module(params) {
                     return colors(i);
                 });
 
-           /* svg.select(".chart-group")
-                .selectAll('.vbar-label')
+            svg.select(".chart-group")
+                .selectAll('.line-label')
                 .transition()
                 .duration(duration)
                 .ease(ease)
                 .delay(delay)
                 .attr("x",function(d,i){
-                    return xVerticalBarScale(d.itemGroup + " / " + d.periodKey) + (xVerticalBarScale.rangeBand()/2) ;
+                    return  xScale(dateParser(d.periodKey)) ;
                 })
-                .attr("dx",0)
+                .attr("dx",4)
                 .attr("y",function(d,i){
-                    return yVerticalBarScale(d.totalAmount);
+                    return yScale(d.totalAmount);
                 })
-                .attr("dy",20)
+                .attr("dy",-5)
                 .text(function(d,i){
                     return d.totalAmount;
-                });*/
+                });
 
             //exit
             trendLine.exit().remove();
             circle.exit().remove();
+            lineLabel.exit().remove();
+            areaPath.exit().remove();
 
-           /* vbarLabel.exit().remove();
 
             if(initialized) {
                 svg.select(".chart-group").append('text')
@@ -192,9 +209,9 @@ d3.custom.LineChart = function module(params) {
                     .ease(ease)
                     .delay(delay)
                     .attr("transform","translate("+(width/2)+","+(height + margin.bottom - 10)+")")
-                    .text("Item Group / Period Key");
+                    .text("Period Key");
             }
-*/
+
         });
     }
 
@@ -230,7 +247,6 @@ d3.custom.LineChart = function module(params) {
 
 var chart = d3.custom.LineChart().on('customHover',function(d,i){
     d3.select(this).style("fill","#000");
-    console.log(d);
 }).on('customMouseOut',function(d,i){
     d3.select(this).style("fill",function(){return colors(i)});
 });
