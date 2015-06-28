@@ -13,7 +13,14 @@ block content
             a(href="/lineChart") Line Chart
           li
             a(href="/scatterPlot") Scatter Plot
+          li
+            a(href="/pieChart") Pie Chart
   .container
+    div(id="tooltip" , class="hidden")
+      p
+        strong Important Information
+      p
+        span(id="value")
     section.content(ng-view)
   footer.container.text-center.margin-top-med
     p &copy; 2015 Visualize Charts Corp International Ltd

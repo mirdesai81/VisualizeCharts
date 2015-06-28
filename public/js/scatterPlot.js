@@ -5,7 +5,7 @@ d3.custom.ScatterPlot = function module(params) {
     var w = 1140, h = 650;
     var svg;
    /* var dispatch = d3.dispatch('customMouseOver','customMouseOut');*/
-    var ease = "bounce";
+    var ease = "linear";
     var initialized = true;
     var delay = 500;
     var duration = 500;
@@ -73,10 +73,14 @@ d3.custom.ScatterPlot = function module(params) {
                 svg.append('g').classed('chart-header',true);
             }
 
+
+
             svg.transition().attr({width:w,height:h});
 
             svg.select('.container-group')
                 .attr("transform","translate("+margin.left+","+margin.top+")");
+
+            var svgPos = d3.select(".container-group").position();
             svg.select(".y.gridline")
                 .transition()
                 .duration(duration)
@@ -180,8 +184,27 @@ d3.custom.ScatterPlot = function module(params) {
                  });
 
                 g.selectAll('.responses')
-                 .on("mouseover", function(d,i){d3.select('.chart-header-label').text("Donut : "+ d.key+" ,Rating : "+ d.value+" ,Age : "+ d.age+" ,Responses : "+ d.responses)})
-                 .on("mouseout",function(d,i){d3.select('.chart-header-label').text("")});
+                 .on("mouseover", function(d,i){
+                        d3.select('.chart-header-label').text("Donut : "+ d.key+" ,Rating : "+ d.value+" ,Age : "+ d.age+" ,Responses : "+ d.responses);
+                        //Get this bar's x/y values, then augment for the tooltip
+                        var xPosition = parseFloat(xScale(d.age)+margin.left+responseScale(d.responses)/2);
+                        var yPosition = parseFloat(yScale(d.value)+margin.top+responseScale(d.responses)/2+100);
+                        console.log(xPosition +","+yPosition);
+                        var pos = d3.select(this).position();
+                        console.log((pos.left + svgPos.left + margin.left)+","+(pos.top + svgPos.top + margin.top));
+                        //Update the tooltip position and value
+                        d3.select("#tooltip")
+                            .style("left", (pos.left + svgPos.left + responseScale(d.responses)/2) + "px")
+                            .style("top", (pos.bottom + svgPos.bottom  - 50 + responseScale(d.responses)/2) + "px")
+                            .select("#value")
+                            .text("Donut : "+ d.key+" Rating : "+ d.value+" Age : "+ d.age+" Responses : "+ d.responses);
+                        //Show the tooltip
+                        d3.select("#tooltip").classed("hidden", false);
+                    })
+                 .on("mouseout",function(d,i){
+                        d3.select('.chart-header-label').text("");
+                        d3.select("#tooltip").classed("hidden", true);
+                    });
                  //exit
                  point.exit().remove();
             });

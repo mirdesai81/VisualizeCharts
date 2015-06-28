@@ -14,7 +14,7 @@ d3.custom.VerticalBarChart = function module(params) {
     var w = 1140, h = 550;
     var svg;
     var dispatch = d3.dispatch('customHover','customMouseOut');
-    var ease = "bounce";
+    var ease = "linear";
     var duration = 500;
     var delay = 500;
     var initialized = true;
@@ -48,21 +48,28 @@ d3.custom.VerticalBarChart = function module(params) {
                  .tickFormat("")
                  .orient("left");
 
-           /*  var barW = width / _data.length ;*/
-
              if(!svg) {
                  svg = d3.select(this).append('svg').attr('class','svg').attr('height',h).attr("width",w);
                  var container = svg.append("g")
                      .classed("container-group",true);
-                 container.append("g").classed("x axis",true);
-                 container.append("g").classed("y axis",true);
                  container.append("g").classed("gridline",true);
                  container.append("g").classed("chart-group",true);
+
+                 container.append("g").classed("x axis",true);
+                 container.append("g").classed("y axis",true);
+
              }
 
              svg.transition().attr({width : w,height : h});
              svg.select('.container-group').attr("transform","translate("+margin.left+","+margin.top+")");
-
+             //GridLines
+             svg.select('.gridline')
+                 .transition()
+                 .duration(duration)
+                 .ease(ease)
+                 .delay(delay)
+                 .attr("transform","translate(0,0)")
+                 .call(yGridLines);
              // X Axis
              svg.select('.x.axis')
                  .transition()
@@ -75,14 +82,6 @@ d3.custom.VerticalBarChart = function module(params) {
                  .attr("dy",-4)
                  .attr("transform","translate(0,0) rotate(-45)");
 
-             /*svg.select('x axis')
-                 .attr("transform","translate("+ 0 +","+height+")")
-                 .call(xAxis)
-                 .selectAll('text')
-                 .style('text-anchor','end')
-                 .attr("dx",-8)
-                 .attr("dy",-4)
-                 .attr("transform","translate(0,0) rotate(-45)");*/
 
              // Y Axis
              svg.select('.y.axis')
@@ -92,17 +91,6 @@ d3.custom.VerticalBarChart = function module(params) {
                  .delay(delay)
                  .attr("transform","translate("+ 0 +","+0+")")
                  .call(yAxis);
-             //GridLines
-             svg.select('.gridline')
-                 .transition()
-                 .duration(duration)
-                 .ease(ease)
-                 .delay(delay)
-                 .attr("transform","translate(0,0)")
-                 .call(yGridLines);
-          /*   var gapSize = xVerticalBarScale.rangeBand()/100 * gap;
-             var barW = xVerticalBarScale.rangeBand() - gapSize;*/
-
 
              // enter
              var bars = svg.select(".chart-group")
@@ -146,10 +134,6 @@ d3.custom.VerticalBarChart = function module(params) {
                      // return ordinalColorScale(i);
                      return colors(i);
                  });
-
-             /*svg.select(".chart-group")
-                 .selectAll('.bar')
-                 .on("mouseover",dispatch.customHover);*/
 
              svg.select(".chart-group")
                  .selectAll('.vbar-label')

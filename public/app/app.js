@@ -15,5 +15,8 @@ angular.module('app').config(function($routeProvider , $locationProvider){
         .when('/scatterPlot',{
             templateUrl:'/partials/scatterplot/scatterplot'
         })
+        .when('/pieChart',{
+            templateUrl:'/partials/layout/piechart'
+        })
         .otherwise({redirectTo:'/'});
 });

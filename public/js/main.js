@@ -7,6 +7,37 @@ d3.csv('js/data.csv',function(data){
 });
 */
 
+d3.selection.prototype.position = function() {
+
+    var el = this.node();
+    var elPos = el.getBoundingClientRect();
+    var vpPos = getVpPos(el);
+
+   /* function getVpPos(el) {
+        if(el.parentElement.tagName === 'svg') {
+            return el.parentElement.getBoundingClientRect();
+        }
+        return getVpPos(el.parentElement);
+    }*/
+
+    function getVpPos(el) {
+        if(el.parentNode.nodeName === 'svg') {
+            return el.parentNode.getBoundingClientRect();
+        }
+        return getVpPos(el.parentNode);
+    }
+
+    return {
+        top: elPos.top - vpPos.top,
+        left: elPos.left - vpPos.left,
+        width: elPos.width,
+        bottom: elPos.bottom - vpPos.top,
+        height: elPos.height,
+        right: elPos.right - vpPos.left
+    };
+
+};
+
 
 var data = [
     {itemGroup : '123456' , item : '123456' , periodKey : '201502' , totalUnits: 50 , totalAmount : 250},
@@ -107,6 +138,14 @@ var scatterplotdata = [
     {glazed: 3.00, jelly: 2.50, powdered: 3.75, sprinkles: 2.00, age: 72, responses: 4},
     {glazed: 2.00, jelly: 2.50, powdered: 4.50, sprinkles: 2.50, age: 73, responses: 2},
     {glazed: 3.00, jelly: 2.00, powdered: 4.00, sprinkles: 1.50, age: 74, responses: 2}
+];
+
+var piedata = [
+    {glazed: 1.14, jelly: 5.00, powdered: 2.43, sprinkles: 3.86, age: '<15', responses: 27},
+    {glazed: 3.00, jelly: 1.67, powdered: 2.67, sprinkles: 4.00, age: '15-25', responses: 23},
+    {glazed: 2.00, jelly: 2.00, powdered: 2.33, sprinkles: 4.33, age: '26-35', responses: 34},
+    {glazed: 3.50, jelly: 0.50, powdered: 1.00, sprinkles: 3.50, age: '36-45', responses: 45},
+    {glazed: 2.83, jelly: 3.50, powdered: 1.83, sprinkles: 4.50, age: '46-70', responses: 60}
 ];
 
 d3.custom = {};

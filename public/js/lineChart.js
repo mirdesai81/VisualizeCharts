@@ -13,7 +13,7 @@ d3.custom.LineChart = function module(params) {
     var w = 1140, h = 550;
     var svg;
     var dispatch = d3.dispatch('customHover','customMouseOut');
-    var ease = "bounce";
+    var ease = "linear";
     var duration = 500;
     var delay = 500;
     var initialized = true;
@@ -64,10 +64,11 @@ d3.custom.LineChart = function module(params) {
                 svg = d3.select(this).append('svg').attr('class','svg').attr('height',h).attr("width",w);
                 var container = svg.append("g")
                     .classed("container-group",true);
+                container.append("g").classed("chart-group",true);
                 container.append("g").classed("x axis",true);
                 container.append("g").classed("y axis",true);
 
-                container.append("g").classed("chart-group",true);
+
             }
 
             svg.transition().attr({width : w,height : h});

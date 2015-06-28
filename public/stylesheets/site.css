@@ -103,3 +103,35 @@ footer p {
   fill: #555;
   font-size: 20px;
 }
+#tooltip {
+  position: absolute;
+  width: 200px;
+  height: auto;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+  -moz-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+  pointer-events: none;
+}
+#tooltip.hidden {
+  display: none;
+}
+#tooltip.value {
+  margin: 0;
+  line-height: 20px;
+  font-size: 20px;
+}
+.pie-chart-label {
+  fill: #fff;
+  text-anchor: middle;
+  font-size: 20px;
+}
+.pie-label {
+  fill: #555;
+  text-anchor: middle;
+  font-size: 20px;
+}
